@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_home_page"
     android:layout_width="match_parent"
@@ -9,31 +8,52 @@
     android:orientation="vertical"
     tools:context="com.ymy.suiyue.activity.HomePageActivity">
 
-    <TextView
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:gravity="center"
-        android:text="@string/suiyue"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:orientation="horizontal">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabLayout"
-        app:tabIndicatorColor="@color/white"
-        app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@color/homeBackground"
-        app:tabGravity="fill"
-        app:tabMode="fixed" />
+        <RadioButton
+            android:id="@+id/btnRecommend"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_recommend"
+            android:gravity="center"
+            android:text="@string/bobo"
+            android:textColor="@color/radiobutton_textcolor" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="430dp" />
+        <RadioButton
+            android:id="@+id/btnFind"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_find"
+            android:gravity="center"
+            android:text="@string/faxian"
+            android:textColor="@color/radiobutton_textcolor" />
 
+        <RadioButton
+            android:id="@+id/btnLocal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_wb_sunny"
+            android:gravity="center"
+            android:text="@string/local"
+            android:textColor="@color/radiobutton_textcolor" />
 
+    </RadioGroup>
 </LinearLayout>
+

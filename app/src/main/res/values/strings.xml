@@ -3,7 +3,8 @@
     <string name="tuijian">推荐</string>
     <string name="zuixin">最新</string>
     <string name="huati">话题</string>
-    <string name="suiyue">碎乐</string>
+    <string name="bobo">播播</string>
     <string name="faxian">发现</string>
     <string name="local">本地音乐</string>
+
 </resources>

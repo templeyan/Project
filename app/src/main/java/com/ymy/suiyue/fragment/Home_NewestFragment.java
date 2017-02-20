@@ -1,4 +1,4 @@
-package com.ymy.suiyue.activity;
+package com.ymy.suiyue.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ymy.suiyue.R;
-
+import com.ymy.suiyue.adapter.MyNewestAdapter;
+import com.ymy.suiyue.bean.NewestInformation;
+import com.ymy.suiyue.constants.InterfaceUri;
+import com.ymy.suiyue.util.TimeUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -44,7 +47,7 @@ public class Home_NewestFragment extends Fragment {
     }
 
     private void init() {
-        OkHttpUtils.get().url(HttpUtils.newest)
+        OkHttpUtils.get().url(InterfaceUri.newest)
                 .build()
                 .execute(new StringCallback() {
                     @Override
