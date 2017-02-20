@@ -24,7 +24,7 @@ public class Find_HotFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        View view =inflater.inflate(R.layout.fragment_findhot,container,false);
         init();
-        int i =0;
+        int i =1;
 
 
         return view;
