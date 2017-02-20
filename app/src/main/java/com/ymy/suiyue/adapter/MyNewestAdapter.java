@@ -1,8 +1,9 @@
-package com.ymy.suiyue.activity;
+package com.ymy.suiyue.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.ymy.suiyue.R;
+import com.ymy.suiyue.bean.NewestInformation;
 
 import java.util.List;
 
@@ -31,7 +33,7 @@ public class MyNewestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_myrecyclerview_item,null);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_myrecyclerview_item, null);
         return new MyNewestAdapter.ViewHolder(view);
     }
 
@@ -46,7 +48,9 @@ public class MyNewestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         viewHolder.ratingBar.setVisibility(View.GONE);
         viewHolder.line.setVisibility(View.GONE);
         Picasso.with(context).load(list.get(position).getBackground()).config(Bitmap.Config.RGB_565).into(viewHolder.background);
-        Picasso.with(context).load(list.get(position).getPortrait()).config(Bitmap.Config.RGB_565).into(viewHolder.portrait);
+        if (!TextUtils.isEmpty(list.get(position).getPortrait())||!list.get(position).getPortrait().equals("")) {
+            Picasso.with(context).load(list.get(position).getPortrait()).config(Bitmap.Config.RGB_565).into(viewHolder.portrait);
+        }
     }
 
     @Override
@@ -54,10 +58,11 @@ public class MyNewestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView nickname,title,introduce,type,duration,comment,commentCounts,time,line;
-        private ImageView portrait,background;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView nickname, title, introduce, type, duration, comment, commentCounts, time, line;
+        private ImageView portrait, background;
         private RatingBar ratingBar;
+
         public ViewHolder(View itemView) {
             super(itemView);
             portrait = (ImageView) itemView.findViewById(R.id.img_portrait);

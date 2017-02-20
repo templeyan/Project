@@ -1,4 +1,4 @@
-package com.ymy.suiyue.activity;
+package com.ymy.suiyue.bean;
 
 import java.io.Serializable;
 

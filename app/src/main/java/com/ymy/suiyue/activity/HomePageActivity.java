@@ -7,6 +7,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.ymy.suiyue.R;
+import com.ymy.suiyue.adapter.MyFragmentPagerAdapter;
+import com.ymy.suiyue.fragment.Home_NewestFragment;
+import com.ymy.suiyue.fragment.Home_RecommendFragment;
+import com.ymy.suiyue.fragment.Home_TopicFragment;
 
 import java.util.ArrayList;
 import java.util.List;
