@@ -8,8 +8,16 @@ import java.io.Serializable;
  */
 
 public class NewestInformation implements Serializable{
-    private String background,portrait,nickname,title,introduce;//背景图片，头像，昵称，主题，介绍
+    private String id,background,portrait,nickname,title,introduce;//信息的id，背景图片，头像，昵称，主题，介绍
     private String type,duration,comment,commentCounts,time;//视频种类(1--音频，2--视频)，播放时间，评论种类，评论数，发出时间
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getBackground() {
         return background;

@@ -52,8 +52,15 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         if (btnRecommend.getId()==v.getId()){
 
-        }
 
+        }else if (btnFind.getId()==v.getId()){
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.frameLayout,new HomePageFragment());
+            transaction.commit();
+        }else if (btnLocal.getId()==v.getId()){
+
+        }
 
     }
 }

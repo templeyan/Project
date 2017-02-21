@@ -19,7 +19,7 @@ public class Home_RecommendFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_home_recommend,container,false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_recommend);
+        //recyclerView = (RecyclerView) view.findViewById(R.id.recycler_recommend);
         return view;
     }
 

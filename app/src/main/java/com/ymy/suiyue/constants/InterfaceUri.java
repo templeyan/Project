@@ -6,5 +6,5 @@ package com.ymy.suiyue.constants;
  */
 
 public class InterfaceUri {
-    public static String newest = "https://api.suiyueyule.com/1.0.2/feed/new?limit=20&page=1";
+    public static String newest = "https://api.suiyueyule.com/1.0.2/feed/new?limit=20&page=";
 }
