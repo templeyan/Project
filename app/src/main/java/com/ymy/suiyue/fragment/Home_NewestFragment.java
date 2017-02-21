@@ -52,8 +52,9 @@ public class Home_NewestFragment extends Fragment {
         return view;
     }
 
+
     //进页面的初次加载
-    private void getData(final int page){
+    public void getData(final int page){
         OkHttpUtils.get().url(InterfaceUri.newest + page)
                 .build()
                 .execute(new StringCallback() {
@@ -117,21 +118,6 @@ public class Home_NewestFragment extends Fragment {
 
     private void set() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.VERTICAL,false));
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE
-                        ) {//&& lastVisibleItem + 1 == adapter.getItemCount()
-                    swipeRefreshLayout.setRefreshing(true);
-                    page++;
-                    getData(page);
-                    adapter.notifyDataSetChanged();
-                    swipeRefreshLayout.setRefreshing(false);
-                    Toast.makeText(getActivity(), "加载成功", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         swipeRefreshLayout.setColorSchemeColors(Color.RED,Color.YELLOW,Color.GREEN,Color.BLUE);
         //实现下拉刷新
