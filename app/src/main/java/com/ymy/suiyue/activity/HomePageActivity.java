@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.RadioButton;
 
 import com.ymy.suiyue.R;
+import com.ymy.suiyue.fragment.Find_Fragment;
 import com.ymy.suiyue.fragment.HomePageFragment;
 
 /**
@@ -31,7 +32,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     private void setFragment() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.frameLayout,new HomePageFragment());
+        transaction.replace(R.id.frameLayout,new Find_Fragment());
         transaction.commit();
     }
 
