@@ -44,7 +44,7 @@ public class HomePageFragment extends Fragment {
         fragments.add(new Home_RecommendFragment());
         fragments.add(new Home_NewestFragment());
         fragments.add(new Home_TopicFragment());
-        MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getFragmentManager(), titles, fragments);
+        MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getChildFragmentManager(), titles, fragments);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }

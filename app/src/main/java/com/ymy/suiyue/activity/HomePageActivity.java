@@ -30,11 +30,15 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setFragment() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.frameLayout,new HomePageFragment());
+
         if (btnRecommend.isChecked()) {
-            FragmentManager manager = getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.frameLayout, new HomePageFragment());
-            transaction.commit();
+            //FragmentManager manager = getSupportFragmentManager();
+           // FragmentTransaction transaction = manager.beginTransaction();
+           // transaction.replace(R.id.frameLayout, new HomePageFragment());
+           // transaction.commit();
         }
     }
 
