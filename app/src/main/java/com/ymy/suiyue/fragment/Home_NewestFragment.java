@@ -1,12 +1,16 @@
 package com.ymy.suiyue.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ymy.suiyue.R;
 import com.ymy.suiyue.adapter.MyNewestAdapter;
@@ -31,23 +35,27 @@ import okhttp3.Call;
  */
 
 public class Home_NewestFragment extends Fragment {
-    private RecyclerView recyclerView;
-    private MyNewestAdapter adapter;
-    private List<NewestInformation> list = new ArrayList<>();
-    private NewestInformation newestInformation;
+    private RecyclerView recyclerView;//显示数据
+    private MyNewestAdapter adapter;//RecyclerView适配器
+    private List<NewestInformation> list = new ArrayList<>();//数据源
+    public static int page = 1;//执行刷新和加载时请求的参数
+    private NewestInformation newestInformation;//最新界面的信息对象
+    private SwipeRefreshLayout swipeRefreshLayout;//刷新布局
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_home_recommend, container, false);
-        init();
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_recommend);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_new);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
 
+        init();
         return view;
     }
 
-    private void init() {
-        OkHttpUtils.get().url(InterfaceUri.newest)
+
+    //进页面的初次加载
+    public void getData(final int page){
+        OkHttpUtils.get().url(InterfaceUri.newest + page)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -57,6 +65,9 @@ public class Home_NewestFragment extends Fragment {
 
                     @Override
                     public void onResponse(String response, int id) {
+                        if (page == 1) {
+                            list.clear();
+                        }
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject object = jsonObject.getJSONObject("data");
@@ -64,37 +75,68 @@ public class Home_NewestFragment extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject listObject = jsonArray.getJSONObject(i);
                                 newestInformation = new NewestInformation();
+                                newestInformation.setId(TimeUtils.getStandardDate(listObject.getString("id")));
                                 newestInformation.setTime(TimeUtils.getStandardDate(listObject.getString("create_time")));
                                 JSONObject userObject = listObject.getJSONObject("user_info");
                                 newestInformation.setNickname(userObject.getString("nickname"));
                                 newestInformation.setPortrait(userObject.getString("avatar"));
                                 JSONObject worksObject = listObject.getJSONObject("works");
-                                if (worksObject.getString("type").equals("1")){
+                                if (worksObject.getString("type").equals("1")) {
                                     newestInformation.setType("音频");
-                                }else if (worksObject.getString("type").equals("2")){
+                                } else if (worksObject.getString("type").equals("2")) {
                                     newestInformation.setType("视频");
                                 }
                                 newestInformation.setTitle(worksObject.getString("title"));
                                 newestInformation.setBackground(worksObject.getString("cover_photo"));
-                                if (Integer.parseInt(worksObject.getString("file_long")) < 60){
-                                    newestInformation.setDuration("00:"+worksObject.getString("file_long"));
-                                }else {
+                                if (Integer.parseInt(worksObject.getString("file_long")) < 60) {//秒转换为分秒的形式
+                                    newestInformation.setDuration("00:" + worksObject.getString("file_long"));
+                                } else {
                                     int t = Integer.parseInt(worksObject.getString("file_long"));
-                                    int m = t/60;
-                                    int s = t%60;
-                                    newestInformation.setDuration(m+":"+s);
+                                    int m = t / 60;
+                                    int s = t % 60;
+                                    newestInformation.setDuration(m + ":" + s);
                                 }
                                 newestInformation.setCommentCounts(worksObject.getString("recommend_num"));
                                 list.add(newestInformation);
                             }
-
+                            adapter = new MyNewestAdapter(getActivity().getApplicationContext(), list);
+                            recyclerView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        adapter = new MyNewestAdapter(getActivity().getApplicationContext(),list);
-                        recyclerView.setAdapter(adapter);
+
                     }
                 });
+
+    }
+
+
+    private void init() {
+        getData(1);
+        set();
+    }
+
+    private void set() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.VERTICAL,false));
+
+        swipeRefreshLayout.setColorSchemeColors(Color.RED,Color.YELLOW,Color.GREEN,Color.BLUE);
+        //实现下拉刷新
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                getData(1);
+                adapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getActivity(), "刷新成功", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // 这句话是为了，第一次进入页面的时候显示加载进度条
+        swipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue
+                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
+                        .getDisplayMetrics()));
+
     }
 
     @Override

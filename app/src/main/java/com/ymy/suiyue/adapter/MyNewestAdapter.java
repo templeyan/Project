@@ -33,8 +33,8 @@ public class MyNewestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_myrecyclerview_item, null);
-        return new MyNewestAdapter.ViewHolder(view);
+            View view = LayoutInflater.from(context).inflate(R.layout.layout_myrecyclerview_item, null);
+            return new MyNewestAdapter.ViewHolder(view);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class MyNewestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         viewHolder.ratingBar.setVisibility(View.GONE);
         viewHolder.line.setVisibility(View.GONE);
         Picasso.with(context).load(list.get(position).getBackground()).config(Bitmap.Config.RGB_565).into(viewHolder.background);
-        if (!TextUtils.isEmpty(list.get(position).getPortrait())||!list.get(position).getPortrait().equals("")) {
+        if (!TextUtils.isEmpty(list.get(position).getPortrait()) || !list.get(position).getPortrait().equals("")) {
             Picasso.with(context).load(list.get(position).getPortrait()).config(Bitmap.Config.RGB_565).into(viewHolder.portrait);
         }
     }
@@ -79,4 +79,5 @@ public class MyNewestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             line = (TextView) itemView.findViewById(R.id.txt_line);
         }
     }
+
 }

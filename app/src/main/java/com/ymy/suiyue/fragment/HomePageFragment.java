@@ -26,7 +26,7 @@ public class HomePageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_home_fragment,container,false);
+        View view = inflater.inflate(R.layout.layout_home_fragment, container, false);
         init(view);
         return view;
     }
@@ -43,10 +43,27 @@ public class HomePageFragment extends Fragment {
         fragments.add(new Home_RecommendFragment());
         fragments.add(new Home_NewestFragment());
         fragments.add(new Home_TopicFragment());
-        MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getFragmentManager(),titles,fragments);
+        MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getFragmentManager(), titles, fragments);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
+
 
     private void findView(View view) {
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);

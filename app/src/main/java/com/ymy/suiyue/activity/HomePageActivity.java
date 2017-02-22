@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.RadioButton;
 
 import com.ymy.suiyue.R;
-import com.ymy.suiyue.fragment.Find_Fragment;
 import com.ymy.suiyue.fragment.HomePageFragment;
+import com.ymy.suiyue.fragment.MusicFragment;
 
 /**
  * 首页
@@ -30,14 +30,17 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setFragment() {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.frameLayout,new Find_Fragment());
-        transaction.commit();
+        if (btnRecommend.isChecked()) {
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.frameLayout, new HomePageFragment());
+            transaction.commit();
+        }
     }
 
     private void setOnClickListener() {
         btnRecommend.setOnClickListener(this);
+        btnRecommend.setChecked(true);
         btnFind.setOnClickListener(this);
         btnLocal.setOnClickListener(this);
     }
@@ -52,9 +55,18 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         if (btnRecommend.getId()==v.getId()){
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.frameLayout,new HomePageFragment());
+            transaction.commit();
+        }else if (btnFind.getId()==v.getId()){
 
+        }else if (btnLocal.getId()==v.getId()){
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.frameLayout,new MusicFragment());
+            transaction.commit();
         }
-
 
     }
 }

@@ -3,6 +3,7 @@
     package="com.ymy.suiyue">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -23,7 +24,9 @@
             android:name=".activity.HomePageActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.MusicStarActivity"></activity>
+        <activity
+            android:name=".activity.PlayMusicActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 
 </manifest>
