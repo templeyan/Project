@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:gravity="center_vertical"
+    android:layout_height="110dp"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+        <TextView
+        android:gravity="center"
+        android:id="@+id/item_mymusic_postion"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
+
+        <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_width="wrap_content">
+
+            <TextView
+                android:id="@+id/item_mymusic_song"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                />
+
+
+            <TextView
+                    android:id="@+id/item_mymusic_singer"
+                    android:layout_below="@+id/item_mymusic_song"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/white"
+                    />
+
+            <TextView
+                        android:id="@+id/item_mymusic_duration"
+                        android:layout_below="@+id/item_mymusic_song"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@+id/item_mymusic_singer"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/white"
+                        />
+        </RelativeLayout>
+</LinearLayout>

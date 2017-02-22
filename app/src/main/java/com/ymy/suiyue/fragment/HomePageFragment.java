@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 首页碎片
  * Created by Galaxy on 2017/2/20.
  */
 
@@ -46,24 +47,7 @@ public class HomePageFragment extends Fragment {
         MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getFragmentManager(), titles, fragments);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
     }
-
 
     private void findView(View view) {
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
