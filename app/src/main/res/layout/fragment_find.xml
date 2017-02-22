@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_find"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ymy.suiyue.fragment.Find_Fragment"
+    android:background="#5D4E63"
+    android:orientation="vertical">
+   <LinearLayout
+       android:gravity="center"
+       android:layout_width="match_parent"
+       android:layout_height="60dp"
+       android:background="#625368"
+       android:orientation="horizontal">
+      <RelativeLayout
+          android:layout_margin="10dp"
+          android:layout_width="0dp"
+          android:layout_weight="10"
+          android:layout_height="35dp"
+          android:gravity="center"
+          android:background="@drawable/search_edittext_shape">
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+              <ImageView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:src="@drawable/ic_search_black"/>
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                  android:text="搜索昵称、标题、标签"
+                  android:textColor="@color/black"
+                  />
+          </LinearLayout>
+
+      </RelativeLayout>
+         <ImageView
+             android:layout_margin="5dp"
+             android:id="@+id/mFindIV"
+             android:layout_width="0dp"
+             android:layout_weight="1"
+             android:src="@mipmap/ic_launcher"
+             android:layout_height="wrap_content"
+             />
+
+   </LinearLayout>
+   <android.support.design.widget.TabLayout android:layout_height="wrap_content"
+       android:layout_width="match_parent"
+       android:id="@+id/find_TabLayout"
+       app:tabSelectedTextColor="@color/gray"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/find_ViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+
+</LinearLayout>
