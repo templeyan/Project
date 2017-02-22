@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.RadioButton;
 
 import com.ymy.suiyue.R;
+import com.ymy.suiyue.fragment.Find_Fragment;
 import com.ymy.suiyue.fragment.HomePageFragment;
 import com.ymy.suiyue.fragment.MusicFragment;
 
@@ -16,6 +17,11 @@ import com.ymy.suiyue.fragment.MusicFragment;
  */
 public class HomePageActivity extends AppCompatActivity implements View.OnClickListener{
     private RadioButton btnRecommend,btnFind,btnLocal;//底部3个单选键
+    private HomePageFragment homePageFragment;
+    private Find_Fragment find_fragment;
+    private MusicFragment musicFragment;
+    private FragmentManager manager;
+    private FragmentTransaction transaction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,15 +36,20 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setFragment() {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.frameLayout,new HomePageFragment());
+        manager = getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        homePageFragment = new HomePageFragment();
+        find_fragment = new Find_Fragment();
+        musicFragment = new MusicFragment();
+        transaction.add(R.id.frameLayout,homePageFragment);
+        transaction.add(R.id.frameLayout,find_fragment);
+        transaction.add(R.id.frameLayout,musicFragment);
 
         if (btnRecommend.isChecked()) {
-            //FragmentManager manager = getSupportFragmentManager();
-           // FragmentTransaction transaction = manager.beginTransaction();
-           // transaction.replace(R.id.frameLayout, new HomePageFragment());
-           // transaction.commit();
+            transaction.show(homePageFragment);
+            transaction.hide(find_fragment);
+            transaction.hide(musicFragment);
+            transaction.commit();
         }
     }
 
@@ -58,17 +69,21 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
+        transaction = manager.beginTransaction();
         if (btnRecommend.getId()==v.getId()){
-            FragmentManager manager = getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.frameLayout,new HomePageFragment());
+            transaction.show(homePageFragment);
+            transaction.hide(find_fragment);
+            transaction.hide(musicFragment);
             transaction.commit();
         }else if (btnFind.getId()==v.getId()){
-
+            transaction.hide(homePageFragment);
+            transaction.show(find_fragment);
+            transaction.hide(musicFragment);
+            transaction.commit();
         }else if (btnLocal.getId()==v.getId()){
-            FragmentManager manager = getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.frameLayout,new MusicFragment());
+            transaction.hide(homePageFragment);
+            transaction.hide(find_fragment);
+            transaction.show(musicFragment);
             transaction.commit();
         }
 

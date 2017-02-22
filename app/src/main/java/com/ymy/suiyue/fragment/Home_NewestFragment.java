@@ -45,7 +45,7 @@ public class Home_NewestFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_home_recommend, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_new);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
 
         init();
