@@ -27,6 +27,9 @@
         <activity
             android:name=".activity.PlayMusicActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".activity.MusicStarActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
     </application>
 
 </manifest>
