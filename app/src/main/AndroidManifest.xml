@@ -22,7 +22,8 @@
         <activity
             android:name=".activity.HomePageActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.MusicStarActivity"></activity>
     </application>
 
 </manifest>
