@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+  <LinearLayout
+      android:layout_margin="10dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="@color/gray"
+       >
+      <TextView
+          android:id="@+id/tv"
+          android:layout_centerHorizontal="true"
+          android:layout_centerVertical="true"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textSize="20dp"
+          android:text="加载更多"
+          android:textColor="@color/green"/>
+      <ImageView
+          android:layout_width="120dp"
+          android:layout_height="120dp"
+          />
+    </RelativeLayout>
+  </LinearLayout>
+</LinearLayout>
