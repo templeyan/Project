@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="F:\andriodproject\Project\library\src\main\assets"/><source path="F:\andriodproject\Project\library\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="F:\andriodproject\Project\library\src\debug\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="C:\Users\super\Desktop\android\suiyue\Project1\library\src\main\assets"/><source path="C:\Users\super\Desktop\android\suiyue\Project1\library\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="C:\Users\super\Desktop\android\suiyue\Project1\library\src\debug\assets"/></dataSet></merger>

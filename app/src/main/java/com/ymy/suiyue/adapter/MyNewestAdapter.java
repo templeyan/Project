@@ -47,7 +47,7 @@ public class MyNewestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         viewHolder.type.setText(list.get(position).getType());
         viewHolder.ratingBar.setVisibility(View.GONE);
         viewHolder.line.setVisibility(View.GONE);
-        Picasso.with(context).load(list.get(position).getBackground()).into(viewHolder.background);
+        Picasso.with(context).load(list.get(position).getBackground()).config(Bitmap.Config.RGB_565).into(viewHolder.background);
         if (!TextUtils.isEmpty(list.get(position).getPortrait()) || !list.get(position).getPortrait().equals("")) {
             Picasso.with(context).load(list.get(position).getPortrait()).config(Bitmap.Config.RGB_565).into(viewHolder.portrait);
         }

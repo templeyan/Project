@@ -26,7 +26,7 @@ import java.util.List;
 import okhttp3.Call;
 
 /**
- * 话题详情最新的碎片
+ * 话题详情最热的碎片
  * Created by Galaxy on 2017/2/23.
  */
 
@@ -35,6 +35,7 @@ public class Topic_HotFragment extends Fragment {
     private TopicDetailBean topicDetailBean;//item信息封装对象
     private List<TopicDetailBean> list;//数据源
     private MyTopicDetailAdapter adapter;//列表适配器
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_topic_detail, container, false);
@@ -49,12 +50,12 @@ public class Topic_HotFragment extends Fragment {
     }
 
     private void set() {
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(),2));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 2));
     }
 
     //进页面的初次加载
     public void getData() {
-        OkHttpUtils.get().url(InterfaceUri.topicDetailHot+TopicDetailActivity.id)
+        OkHttpUtils.get().url(InterfaceUri.topicDetailHot + TopicDetailActivity.id)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -81,13 +82,11 @@ public class Topic_HotFragment extends Fragment {
                                 topicDetailBean.setNickname(user_infoObject.getString("nickname"));
                                 list.add(topicDetailBean);
                             }
-                            adapter = new MyTopicDetailAdapter(getContext().getApplicationContext(),list);
+                            adapter = new MyTopicDetailAdapter(getContext().getApplicationContext(), list);
                             recyclerView.setAdapter(adapter);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 });
     }

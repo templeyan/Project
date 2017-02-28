@@ -21,7 +21,7 @@ import java.util.List;
 
 public class HomePageFragment extends Fragment {
     private TabLayout tabLayout;//和viewpager一起使用
-    private ViewPager viewPager;//放置fragment的碎片
+    private ViewPager viewPager;//放置fragment的控件
     private List<String> titles = new ArrayList<>();//主题集合
     private List<Fragment> fragments = new ArrayList<>();//碎片集合
 

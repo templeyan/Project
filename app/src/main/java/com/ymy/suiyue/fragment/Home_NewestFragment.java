@@ -1,17 +1,16 @@
 package com.ymy.suiyue.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ScrollView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.ymy.suiyue.R;
 import com.ymy.suiyue.adapter.MyNewestAdapter;
 import com.ymy.suiyue.bean.HPRecommendNewestBean;
@@ -38,17 +37,14 @@ public class Home_NewestFragment extends Fragment {
     private RecyclerView recyclerView;//显示数据
     private MyNewestAdapter adapter;//RecyclerView适配器
     private List<HPRecommendNewestBean> list;//数据源
-    public static int page = 1;//执行刷新和加载时请求的参数
     private HPRecommendNewestBean HPRecommendNewestBean;//最新界面的信息对象
-    private SwipeRefreshLayout swipeRefreshLayout;//刷新布局
+    private PullToRefreshScrollView pullToRefreshScrollView;//刷新布局
+    private static int page = 1;//刷新的请求参数
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_home_recommend, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
-
-        init();
+        View view = inflater.inflate(R.layout.layout_home_newest, container, false);
+        init(view);
         return view;
     }
 
@@ -67,7 +63,9 @@ public class Home_NewestFragment extends Fragment {
                     public void onResponse(String response, int id) {
 
                         try {
-                            list = new ArrayList<>();
+                            if (page==1) {
+                                list = new ArrayList();
+                            }
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject object = jsonObject.getJSONObject("data");
                             JSONArray jsonArray = object.getJSONArray("list");
@@ -108,32 +106,35 @@ public class Home_NewestFragment extends Fragment {
     }
 
 
-    private void init() {
+    private void init(View view) {
+        findView(view);
         getData(1);
         set();
     }
 
+    private void findView(View view) {
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        pullToRefreshScrollView = (PullToRefreshScrollView) view.findViewById(R.id.pullToRefreshScrollView);
+    }
+
     private void set() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.VERTICAL,false));
-
-        swipeRefreshLayout.setColorSchemeColors(Color.RED,Color.YELLOW,Color.GREEN,Color.BLUE);
-        //实现下拉刷新
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        pullToRefreshScrollView.setMode(PullToRefreshBase.Mode.BOTH);
+        pullToRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
             @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(true);
+            public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {//下拉刷新
                 getData(1);
-                adapter.notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(getActivity(), "刷新成功", Toast.LENGTH_SHORT).show();
+                pullToRefreshScrollView.onRefreshComplete();
+
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {//上拉加载
+                page += 1;
+                getData(page);
+                pullToRefreshScrollView.onRefreshComplete();
             }
         });
-
-        // 这句话是为了，第一次进入页面的时候显示加载进度条
-        swipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue
-                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
-                        .getDisplayMetrics()));
-
     }
 
     @Override

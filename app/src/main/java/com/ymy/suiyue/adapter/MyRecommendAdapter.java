@@ -51,7 +51,7 @@ public class MyRecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             viewHolder.ratingBar.setRating(Float.parseFloat(list.get(position).getScore()));
         }
         viewHolder.line.setVisibility(View.GONE);
-        Picasso.with(context).load(list.get(position).getBackground()).into(viewHolder.background);
+        Picasso.with(context).load(list.get(position).getBackground()).config(Bitmap.Config.RGB_565).into(viewHolder.background);
         if (!TextUtils.isEmpty(list.get(position).getPortrait()) || !list.get(position).getPortrait().equals("")) {
             Picasso.with(context).load(list.get(position).getPortrait()).config(Bitmap.Config.RGB_565).into(viewHolder.portrait);
         }

@@ -8,7 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.ymy.suiyue.R;
 import com.ymy.suiyue.activity.TopicDetailActivity;
 import com.ymy.suiyue.adapter.MyTopicAdapter;
@@ -36,12 +39,13 @@ public class Home_TopicFragment extends Fragment implements MyTopicAdapter.MyRec
     private HPTopicBean hpTopicBean;//话题界面的信息对象
     private List<HPTopicBean> list;//数据源
     private MyTopicAdapter adapter;//RecyclerView适配器
+    private PullToRefreshScrollView pullToRefreshScrollView;//刷新布局
+    private static int page = 1;//刷新的请求参数
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_home_recommend, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        init();
+        View view = inflater.inflate(R.layout.layout_home_topic, container, false);
+        init(view);
         return view;
     }
 
@@ -58,7 +62,9 @@ public class Home_TopicFragment extends Fragment implements MyTopicAdapter.MyRec
                     @Override
                     public void onResponse(String response, int id) {
                         try {
-                            list = new ArrayList<>();
+                            if (page==1) {
+                                list = new ArrayList();
+                            }
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject object = jsonObject.getJSONObject("data");
                             JSONArray jsonArray = object.getJSONArray("list");
@@ -95,13 +101,35 @@ public class Home_TopicFragment extends Fragment implements MyTopicAdapter.MyRec
                 });
     }
 
-    private void init() {
+    private void init(View view) {
+        findView(view);
         getData(1);
         set();
     }
 
+    private void findView(View view) {
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        pullToRefreshScrollView = (PullToRefreshScrollView) view.findViewById(R.id.pullToRefreshScrollView);
+    }
+
     private void set() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        pullToRefreshScrollView.setMode(PullToRefreshBase.Mode.BOTH);
+        pullToRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {//下拉刷新
+                getData(1);
+                pullToRefreshScrollView.onRefreshComplete();
+
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {//上拉加载
+                page += 1;
+                getData(page);
+                pullToRefreshScrollView.onRefreshComplete();
+            }
+        });
     }
 
     @Override

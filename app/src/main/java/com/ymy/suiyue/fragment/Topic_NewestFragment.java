@@ -31,10 +31,11 @@ import okhttp3.Call;
  */
 
 public class Topic_NewestFragment extends Fragment {
-    private RecyclerView recyclerView;
-    private TopicDetailBean topicDetailBean;
-    private List<TopicDetailBean> list;
-    private MyTopicDetailAdapter adapter;
+    private RecyclerView recyclerView;//列表展示
+    private TopicDetailBean topicDetailBean;//item信息封装对象
+    private List<TopicDetailBean> list;//数据源
+    private MyTopicDetailAdapter adapter;//列表适配器
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_topic_detail, container, false);
@@ -49,12 +50,12 @@ public class Topic_NewestFragment extends Fragment {
     }
 
     private void set() {
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(),2));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 2));
     }
 
     //进页面的初次加载
     public void getData() {
-        OkHttpUtils.get().url(InterfaceUri.topicDetailNew+TopicDetailActivity.id)
+        OkHttpUtils.get().url(InterfaceUri.topicDetailNew + TopicDetailActivity.id)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -81,13 +82,11 @@ public class Topic_NewestFragment extends Fragment {
                                 topicDetailBean.setNickname(user_infoObject.getString("nickname"));
                                 list.add(topicDetailBean);
                             }
-                            adapter = new MyTopicDetailAdapter(getContext().getApplicationContext(),list);
+                            adapter = new MyTopicDetailAdapter(getContext().getApplicationContext(), list);
                             recyclerView.setAdapter(adapter);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 });
     }
