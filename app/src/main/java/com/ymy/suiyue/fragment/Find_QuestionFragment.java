@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
+import android.widget.Toast;
+
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.ymy.suiyue.R;
@@ -175,6 +177,23 @@ public class Find_QuestionFragment extends Fragment{
                         }
                         //Log.e("9999","+++"+questionList);
                       adapter = new Find_Question_Adapter(getActivity(),questionList);
+                        //写点击item中的作品的事件
+                        adapter.setmOnworkClidckListener(new Find_Question_Adapter.OnWorkClickListener() {
+                            @Override
+                            public void onWorkClick(View view, QuestionBean questionBean) {
+                                Toast.makeText(getActivity(),"作品id为："+1,Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+                        //还要写点击item的事件
+                        adapter.setOnItemClickListener(new Find_Question_Adapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, QuestionBean questionBean) {
+                                Toast.makeText(getActivity(),"问答id："+questionBean.getAnswer_id(),Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
                        question_recyclerview.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     } catch (JSONException e) {

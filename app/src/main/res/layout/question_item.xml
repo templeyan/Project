@@ -4,8 +4,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_margin="10dp"
+    android:descendantFocusability="blocksDescendants"
     android:background="#433948"
-    >
+    ><!--    android:descendantFocusability="blocksDescendants"这句话是指整个item优先获得焦点-->
         <LinearLayout
             android:paddingLeft="10dp"
             android:layout_width="match_parent"

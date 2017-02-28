@@ -18,7 +18,7 @@ import java.util.List;
  * Created by ymy on 2017/2/24.
  * 发现——问答主界面的适配器
  */
-public class Find_Question_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class Find_Question_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
     private LayoutInflater inflater;
     private Context context;
     private List<QuestionBean> questionList;
@@ -32,6 +32,7 @@ public class Find_Question_Adapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.question_item,parent,false);
+        view.setOnClickListener(this);
         return new ViewHolder(view);
     }
 
@@ -39,6 +40,7 @@ public class Find_Question_Adapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         //Log.e("111111",""+questionList.get(position));
         ViewHolder viewHolder = (ViewHolder) holder;
+       // viewHolder.getWorks_body().setOnClickListener(this);
 
                Glide.with(context)
                .load(questionList.get(position).getUser_info1().getAvatar())
@@ -54,6 +56,7 @@ public class Find_Question_Adapter extends RecyclerView.Adapter<RecyclerView.Vie
          if(TextUtils.isEmpty(questionList.get(position).getWorks().getId())){
              viewHolder.getWorks_body().setVisibility(View.GONE);
          }else {
+
              //Log.e("00000", "" + questionList.get(position).getWorks());
              Glide.with(context)
                      .load(questionList.get(position).getWorks().getCover_photo())
@@ -80,12 +83,17 @@ public class Find_Question_Adapter extends RecyclerView.Adapter<RecyclerView.Vie
         viewHolder.getAnswer_time().setText(TimeUtils.getStandardDate(questionList.get(position).getA_create_time()));
         viewHolder.getQuestion_listen_num().setText(questionList.get(position).getListen_num());
         viewHolder.getAnswer_audio_long().setText(questionList.get(position).getAudio_long());
+        viewHolder.itemView.setTag(questionList.get(position));
+        // viewHolder.getWorks_body().setTag(questionList.get(position).getWorks().getId());
     }
 
     @Override
     public int getItemCount() {
         return questionList.size();
     }
+
+
+
     /***
      * 模板类
      */
@@ -195,4 +203,39 @@ public class Find_Question_Adapter extends RecyclerView.Adapter<RecyclerView.Vie
             return question_name;
         }
     }
+    /***
+     * 下面方法是实现work_body()(作品)的点击事件(需要回调);
+     *
+     */
+    public  interface OnWorkClickListener{
+        void onWorkClick(View view,QuestionBean questionBean);
+    }
+    private OnWorkClickListener workClickListener = null;
+    public void setmOnworkClidckListener(OnWorkClickListener workClickListener){
+        this.workClickListener = workClickListener;
+    }
+    @Override
+    public void onClick(View v) {
+       /* if(workClickListener!=null){
+            workClickListener.onWorkClick(v,(QuestionBean) v.getTag());
+        }*/
+        if(onItemClickListener != null){
+            onItemClickListener.onItemClick(v,(QuestionBean) v.getTag());
+        }
+
+    }
+    /***
+     * 下面方法是实现item的点击事件(需要回调);
+     *
+     */
+    public interface OnItemClickListener{
+        void onItemClick(View view,QuestionBean questionBean);
+
+
+    }
+    private OnItemClickListener onItemClickListener = null;
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
+    }
+
 }
