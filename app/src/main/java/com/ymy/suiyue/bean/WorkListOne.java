@@ -29,6 +29,15 @@ public class WorkListOne {
     private String nickname;
     private String title;
     private String cover_photo;
+    private int type ;//想给他加个尾部局，用这个标识，（0,1） 1是尾部
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     @Override
     public String toString() {

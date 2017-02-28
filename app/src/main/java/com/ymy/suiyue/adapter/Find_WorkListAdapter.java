@@ -1,6 +1,7 @@
 package com.ymy.suiyue.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,9 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.ymy.suiyue.R;
 import com.ymy.suiyue.bean.FindMusicClassification;
 import com.ymy.suiyue.bean.WorkListOne;
+import com.ymy.suiyue.util.GlideRoundTransform;
 
 import java.util.List;
 
@@ -22,34 +25,15 @@ import java.util.List;
  * 歌曲榜的适配器
  */
 
-public class Find_WorkListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class Find_WorkListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
     private LayoutInflater inflater;
     private Context context;
     private List<WorkListOne> listWorkListOnes;
-    public static final int TYPE_HEADER = 0;  //说明是带有Header的
-    public static final int TYPE_FOOTER = 1;  //说明是带有Footer的
-    public static final int TYPE_NORMAL = 2;  //说明是不带有header和footer的
-    private View mFooterView;
-
-    public View getmFooterView() {
-        return mFooterView;
-    }
-
-    public void setmFooterView(View mFooterView) {
-        this.mFooterView = mFooterView;
-        notifyItemInserted(getItemCount()-1);
-    }
+    public static final int TYPE1 = 0;
+    public static final int TYPE2 = 1;  //这个是尾布局标识
+    private RequestManager glideRequest;
 
     //
-    /** 重写这个方法，很重要，是加入Header和Footer的关键，我们通过判断item的类型，从而绑定不同的view    * */
-    @Override
-    public int getItemViewType(int position) {
-        if(position==getItemCount()-1){
-            return  TYPE_FOOTER;
-        }
-        return TYPE_NORMAL;
-    }
-
     public Find_WorkListAdapter(List<WorkListOne> listWorkListOnes, Context context) {
         this.listWorkListOnes = listWorkListOnes;
         this.context = context;
@@ -57,75 +41,101 @@ public class Find_WorkListAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public int getItemViewType(int position) {
+        switch (listWorkListOnes.get(position).getType()){
+            case  0:
+                return TYPE1;
+            case 1:
+                return TYPE2;
 
-        //创建View，如果是HeaderView或者是FooterView，直接在Holder中返回
-        if(mFooterView != null && viewType == TYPE_FOOTER){
-            return new ViewHolder(mFooterView);
+
         }
-        //第一步：通过布局加载器去获取那个布局
-        View view = inflater.inflate(R.layout.worklist_item,null);
+        return  TYPE1;
+    }
 
-        return new Find_WorkListAdapter.ViewHolder(view);
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+     View view = null;
+        switch (viewType){
+            case TYPE1:
+                view = inflater.inflate(R.layout.worklist_item,null);
+                view.setOnClickListener(this);
+                break;
+            case  TYPE2:
+                view = inflater.inflate(R.layout.find_worklist_foot,null);
+                view.setOnClickListener(this);
+                break;
+        }
+        return new ViewHolder(view,viewType);
 
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(getItemViewType(position) == TYPE_NORMAL){
-            if(holder instanceof ViewHolder) {
-                //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了(这里没有header)
-                ((ViewHolder) holder).getworklist_item_NM().setText(listWorkListOnes.get(position).getNickname());
-                ((ViewHolder) holder).getworklist_item_Text().setText(listWorkListOnes.get(position).getTitle());
-                ((ViewHolder) holder).getworklist_item_Rank().setText("No." + (position + 1));//设置名次
-                Glide.with(context)
-                        .load(listWorkListOnes.get(position).getCover_photo())
-                        .into(((ViewHolder) holder).getworklist_item_IV());
-                return;
-            }
-            return;
-        }else if(getItemViewType(position) == TYPE_FOOTER){
-            return;
+        ViewHolder viewHolder = (ViewHolder)holder;
+        glideRequest = Glide.with(context);
+        int type = getItemViewType(position);
+        switch (type){
+            case TYPE1:
+                //Log.i("dsddd",""+listWorkListOnes.size()+"-------"+position);
+                if(position == 0){
+                    viewHolder.getworklist_item_Rank().setBackgroundColor(Color.RED);
+
+                    //Log.i("pppp",""+position);
+                }
+                viewHolder.getworklist_item_NM().setText(listWorkListOnes.get(position).getNickname());
+                viewHolder.getworklist_item_Text().setText(listWorkListOnes.get(position).getTitle());
+                viewHolder.getworklist_item_Rank().setText("No." + (position + 1));//设置名次
+                glideRequest.load(listWorkListOnes.get(position).getCover_photo()).transform(new GlideRoundTransform(context, 5)).into(((ViewHolder) holder).getworklist_item_IV());
+                //这有个问题，不设置的话颜色为红色
+                if(position == 7){
+                    viewHolder.getworklist_item_Rank().setBackgroundColor(Color.argb(50,80,50,50));
+                }
+                break;
+            case TYPE2:
+                break;
         }
+
+
+
+
+            viewHolder.itemView.setTag(listWorkListOnes.get(position));
+
 
     }
-        /*Find_WorkListAdapter.ViewHolder viewHolder = (Find_WorkListAdapter.ViewHolder) holder;
-        Log.e("----",""+listWorkListOnes.size()+"sssss"+position);*/
 
-
-        /*Glide.with(context)
-                .load(R.mipmap.ic_launcher)
-                .into(viewHolder.gethot_MCIV());*/
-            // Log.e("2222",""+findMusicCfs.get(position).getCover_photo());
-
-
-    //返回View中Item的个数，这个时候，总的个数应该是ListView中Item的个数加上HeaderView和FooterView
     @Override
     public int getItemCount() {
-        if (mFooterView != null) {
-            return listWorkListOnes.size() + 1;
-        }else {
+
             return listWorkListOnes.size();
-        }
+
 
     }
     /***
      * 模板类
      */
     public class ViewHolder extends  RecyclerView.ViewHolder{
+        int viewType;
         ImageView worklist_item_IV;
         TextView worklist_item_Rank,worklist_item_Text,worklist_item_NM;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView,int viewType) {
 
             super(itemView);
-            if (itemView == mFooterView){
-                return;
+            this.viewType = viewType;
+            switch (viewType){
+                case  TYPE1:
+                worklist_item_IV = (ImageView) itemView.findViewById(R.id.worklist_item_IV);
+                worklist_item_Rank = (TextView) itemView.findViewById(R.id.worklist_item_Rank);
+                worklist_item_Text = (TextView) itemView.findViewById(R.id.worklist_item_Text);
+
+                worklist_item_NM = (TextView) itemView.findViewById(R.id.worklist_item_NM);
+                    break;
+                case  TYPE2:
+                    break;
+
             }
-            worklist_item_IV = (ImageView) itemView.findViewById(R.id.worklist_item_IV);
-            worklist_item_Rank = (TextView) itemView.findViewById(R.id.worklist_item_Rank);
-            worklist_item_Text = (TextView) itemView.findViewById(R.id.worklist_item_Text);
-            worklist_item_NM = (TextView) itemView.findViewById(R.id.worklist_item_NM);
+
 
         }
         public ImageView getworklist_item_IV() {
@@ -141,5 +151,23 @@ public class Find_WorkListAdapter extends RecyclerView.Adapter<RecyclerView.View
             return worklist_item_NM;
         }
 
+
+    }
+    /***
+     * 下面方法实现RecyclerView的点击事件;
+     */
+    public interface OnRecyclerViewItemClickListener{
+        void onItemClick(View view,WorkListOne workListOne);
+    }
+    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
+    public void setmOnitemClickListener(OnRecyclerViewItemClickListener listener){
+        this.mOnItemClickListener = listener;
+    }
+    @Override
+    public void onClick(View v) {
+        if(mOnItemClickListener!= null){
+            //注意这里使用getTag方法获取数据
+            mOnItemClickListener.onItemClick(v, (WorkListOne)v.getTag());
+        }
     }
 }

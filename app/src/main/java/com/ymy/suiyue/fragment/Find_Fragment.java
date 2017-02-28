@@ -1,5 +1,7 @@
 package com.ymy.suiyue.fragment;
 
+import android.content.Intent;
+import android.icu.text.RelativeDateTimeFormatter;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,8 +10,11 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.ymy.suiyue.R;
+import com.ymy.suiyue.activity.FindSearchActivity;
 import com.ymy.suiyue.adapter.Find_tab_Adapter;
 
 import java.util.ArrayList;
@@ -19,7 +24,7 @@ import java.util.List;
  * 发现的主页面（有hot，歌曲榜，问答三个碎片）
  */
 
-public class Find_Fragment extends Fragment {
+public class Find_Fragment extends Fragment implements View.OnClickListener {
     private TabLayout find_TabLayout;
     private ViewPager find_ViewPager;
     private List<Fragment> list_fragments;
@@ -28,16 +33,23 @@ public class Find_Fragment extends Fragment {
     private Find_WorklistFragment worklistFragment;
     private Find_QuestionFragment questionFragment;
     private FragmentPagerAdapter fAdapter;
+    private RelativeLayout find_searchLL;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
        View view =inflater.inflate(R.layout.fragment_find,container,false);
         //找到控件
         find_TabLayout = (TabLayout) view.findViewById(R.id.find_TabLayout);
         find_ViewPager = (ViewPager) view.findViewById(R.id.find_ViewPager);
+        find_searchLL = (RelativeLayout) view.findViewById(R.id.find_searchLL);
         init();
         //小小测试一下
+        setOnlistener();
         return view;
 
+    }
+
+    private void setOnlistener() {
+        find_searchLL.setOnClickListener(this);
     }
 
     private void init() {
@@ -66,6 +78,17 @@ public class Find_Fragment extends Fragment {
         //ViewPager 加载 adapter
         find_ViewPager.setAdapter(fAdapter);
         find_TabLayout.setupWithViewPager(find_ViewPager);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.find_searchLL:
+                Intent intent4 = new Intent(getActivity(), FindSearchActivity.class);
+                startActivity(intent4);
+                break;
+        }
 
     }
 }
