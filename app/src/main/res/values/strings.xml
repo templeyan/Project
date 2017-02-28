@@ -6,5 +6,12 @@
     <string name="bobo">播播</string>
     <string name="faxian">发现</string>
     <string name="local">本地音乐</string>
+    <string name="shouting">收听</string>
+    <string name="works">作品</string>
+    <string name="first">NO.1</string>
+    <string name="second">NO.2</string>
+    <string name="third">NO.3</string>
+    <string name="nullMusic">手机当前没有本地音乐</string>
+
 
 </resources>

@@ -30,10 +30,12 @@
         <activity
             android:name=".activity.MusicStarActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".activity.ScreamMusicActivity" />
-        <activity android:name=".activity.NewMusicActivity" />
-        <activity android:name=".activity.MusicClassificationActivity" />
-        <activity android:name=".activity.FindSearchActivity"></activity>
+        <activity android:name=".activity.TopicDetailActivity"/>
+        <activity android:name=".activity.FindSearchActivity"/>
+        <activity android:name=".activity.MusicClassificationActivity"/>
+        <activity android:name=".activity.NewMusicActivity"/>
+        <activity android:name=".activity.ScreamMusicActivity"/>
+
     </application>
 
 </manifest>

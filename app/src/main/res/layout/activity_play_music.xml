@@ -11,6 +11,7 @@
         android:id="@+id/relativeTop"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+
         android:layout_weight="1">
 
         <ImageView
@@ -32,7 +33,6 @@
                 android:id="@+id/song"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PLAYING WITH FIRE"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -41,7 +41,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/song"
-                android:text="BLACKPING"
                 android:textColor="@color/gray"
                 android:textSize="12sp" />
 
@@ -69,7 +68,7 @@
         android:maxHeight="2dp"
         android:minHeight="2dp"
         android:progressDrawable="@drawable/seekbar"
-        android:thumb="@drawable/thump" />
+        android:thumb="@drawable/mythump" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -77,31 +76,52 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/seekBar"
         android:layout_weight="1"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/last"
-            android:layout_width="25dp"
+            android:id="@+id/type"
+            android:layout_width="35dp"
             android:layout_height="30dp"
-            android:background="@drawable/last"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/repeat"
             android:onClick="play" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="50dp"
-            android:layout_height="55dp"
-            android:layout_marginLeft="50dp"
-            android:background="@drawable/play"
-            android:onClick="play" />
 
-        <Button
-            android:id="@+id/next"
-            android:layout_width="25dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="50dp"
-            android:background="@drawable/next"
-            android:onClick="play" />
+        <LinearLayout
 
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/last"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/last"
+                android:onClick="play" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="50dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/play"
+                android:gravity="center"
+                android:onClick="play" />
+
+            <Button
+                android:layout_marginRight="95dp"
+                android:id="@+id/next"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/next"
+                android:onClick="play" />
+
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

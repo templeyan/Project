@@ -9,6 +9,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ymy.suiyue.R;
+import com.ymy.suiyue.adapter.MyRecommendAdapter;
+import com.ymy.suiyue.bean.HPRecommendNewestBean;
+import com.ymy.suiyue.constants.InterfaceUri;
+import com.ymy.suiyue.util.TimeUtils;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Call;
 
 /**
  * 首页推荐的碎片
@@ -16,23 +31,26 @@ import com.ymy.suiyue.R;
  */
 
 public class Home_RecommendFragment extends Fragment {
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView;//列表展示
+    private HPRecommendNewestBean HPRecommendNewestBean;//最新界面的信息对象
+    private List<HPRecommendNewestBean> list;//数据源
+    private MyRecommendAdapter adapter;//适配器
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_home_recommend,container,false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-
 
         init();
         return view;
     }
 
     private void init() {
-        //getData(1);
+        getData(1);
         set();
     }
 
-    /*//进页面的初次加载
+    //进页面的初次加载
     public void getData(final int page){
         OkHttpUtils.get().url(InterfaceUri.recommend + page)
                 .build()
@@ -44,50 +62,50 @@ public class Home_RecommendFragment extends Fragment {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        if (page == 1) {
-                            list.clear();
-                        }
                         try {
+                            list = new ArrayList<>();
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject object = jsonObject.getJSONObject("data");
                             JSONArray jsonArray = object.getJSONArray("list");
-                            for (int i = 0; i < jsonArray.length(); i++) {
+                            int length = jsonArray.length();
+                            for (int i = 0; i < length; i++) {
                                 JSONObject listObject = jsonArray.getJSONObject(i);
-                                newestInformation = new NewestInformation();
-                                newestInformation.setId(TimeUtils.getStandardDate(listObject.getString("id")));
-                                newestInformation.setTime(TimeUtils.getStandardDate(listObject.getString("create_time")));
+                                HPRecommendNewestBean = new HPRecommendNewestBean();
+                                HPRecommendNewestBean.setTime(TimeUtils.getStandardDate(listObject.getString("create_time")));
                                 JSONObject userObject = listObject.getJSONObject("user_info");
-                                newestInformation.setNickname(userObject.getString("nickname"));
-                                newestInformation.setPortrait(userObject.getString("avatar"));
+                                HPRecommendNewestBean.setNickname(userObject.getString("nickname"));
+                                HPRecommendNewestBean.setPortrait(userObject.getString("avatar"));
                                 JSONObject worksObject = listObject.getJSONObject("works");
                                 if (worksObject.getString("type").equals("1")) {
-                                    newestInformation.setType("音频");
+                                    HPRecommendNewestBean.setType("音频");
                                 } else if (worksObject.getString("type").equals("2")) {
-                                    newestInformation.setType("视频");
+                                    HPRecommendNewestBean.setType("视频");
+                                    HPRecommendNewestBean.setVideo(listObject.getString("cover_url"));
                                 }
-                                newestInformation.setTitle(worksObject.getString("title"));
-                                newestInformation.setBackground(worksObject.getString("cover_photo"));
+                                if (worksObject.has("score")) {
+                                    HPRecommendNewestBean.setScore(worksObject.getString("score"));
+                                }
+                                HPRecommendNewestBean.setTitle(worksObject.getString("title"));
+                                HPRecommendNewestBean.setBackground(worksObject.getString("cover_photo"));
                                 if (Integer.parseInt(worksObject.getString("file_long")) < 60) {//秒转换为分秒的形式
-                                    newestInformation.setDuration("00:" + worksObject.getString("file_long"));
+                                    HPRecommendNewestBean.setDuration("00:" + worksObject.getString("file_long"));
                                 } else {
                                     int t = Integer.parseInt(worksObject.getString("file_long"));
                                     int m = t / 60;
                                     int s = t % 60;
-                                    newestInformation.setDuration(m + ":" + s);
+                                    HPRecommendNewestBean.setDuration(m + ":" + s);
                                 }
-                                newestInformation.setCommentCounts(worksObject.getString("recommend_num"));
-                                list.add(newestInformation);
+                                HPRecommendNewestBean.setCommentCounts(worksObject.getString("recommend_num"));
+                                list.add(HPRecommendNewestBean);
                             }
-                            adapter = new MyNewestAdapter(getActivity().getApplicationContext(), list);
+                            adapter = new MyRecommendAdapter(getActivity().getApplicationContext(), list);
                             recyclerView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 });
-
-    }*/
+    }
 
     private void set() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.VERTICAL,false));

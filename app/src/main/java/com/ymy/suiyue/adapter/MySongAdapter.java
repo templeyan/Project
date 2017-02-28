@@ -18,10 +18,11 @@ import java.util.List;
  * ListView的适配器
  * Created by Galaxy on 2017/2/18.
  */
-public class MyAdapter extends BaseAdapter{
+public class MySongAdapter extends BaseAdapter {
     private Context context;
     private List<Song> list;
-    public MyAdapter(Context context, List<Song> list) {
+
+    public MySongAdapter(Context context, List<Song> list) {
         this.context = context;
         this.list = list;
 
@@ -48,7 +49,7 @@ public class MyAdapter extends BaseAdapter{
         if (convertView == null) {
             holder = new ViewHolder();
             //引入布局
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_music_listview,null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_music_listview, null);
             //实例化对象
             holder.song = (TextView) convertView.findViewById(R.id.item_mymusic_song);
             holder.singer = (TextView) convertView.findViewById(R.id.item_mymusic_singer);
@@ -65,11 +66,12 @@ public class MyAdapter extends BaseAdapter{
         int duration = list.get(i).duration;
         String time = MusicUtils.formatTime(duration);
         holder.duration.setText(time);
-        holder.position.setText(i+1+"");
+        holder.position.setText(i + 1 + "");
 
         return convertView;
     }
-     static class ViewHolder{
+
+    static class ViewHolder {
         TextView song;//歌曲名
         TextView singer;//歌手
         TextView duration;//时长

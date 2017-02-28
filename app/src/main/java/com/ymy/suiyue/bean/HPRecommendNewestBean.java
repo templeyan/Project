@@ -3,20 +3,29 @@ package com.ymy.suiyue.bean;
 import java.io.Serializable;
 
 /**
- * 首页最新RecyclerView每个Item的信息对象
+ * 首页推荐和最新RecyclerView每个Item的信息对象
  * Created by Galaxy on 2017/2/20.
  */
 
-public class NewestInformation implements Serializable{
-    private String id,background,portrait,nickname,title,introduce;//信息的id，背景图片，头像，昵称，主题，介绍
+public class HPRecommendNewestBean implements Serializable{
+    private String background,video,portrait,nickname,title,introduce;//信息的id，背景图片，视频路径，头像，昵称，主题，介绍
     private String type,duration,comment,commentCounts,time;//视频种类(1--音频，2--视频)，播放时间，评论种类，评论数，发出时间
+    private String score="";//打星等级
 
-    public String getId() {
-        return id;
+    public String getVideo() {
+        return video;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
     }
 
     public String getBackground() {

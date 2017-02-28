@@ -4,24 +4,30 @@
     android:id="@+id/homeFragmentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/homeBackground"
+    android:background="@drawable/shape"
     android:orientation="vertical">
 
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="10dp"
+        android:layout_weight="1"
         android:gravity="center"
         android:text="@string/bobo"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/homeBackground"
+        android:background="@drawable/shape"
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/white"
         app:tabMode="fixed"
@@ -31,14 +37,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="10"
         android:orientation="vertical">
+
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="10" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </LinearLayout>
