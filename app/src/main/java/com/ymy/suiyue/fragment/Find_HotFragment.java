@@ -12,13 +12,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.ymy.suiyue.R;
+import com.ymy.suiyue.activity.FindSearchActivity;
+import com.ymy.suiyue.activity.MusicClassificationActivity;
 import com.ymy.suiyue.activity.MusicStarActivity;
+import com.ymy.suiyue.activity.NewMusicActivity;
+import com.ymy.suiyue.activity.ScreamMusicActivity;
 import com.ymy.suiyue.adapter.Find_hot_Adapter1;
 import com.ymy.suiyue.adapter.Find_hot_Adapter2;
 import com.ymy.suiyue.bean.FindMusicClassification;
@@ -46,16 +52,21 @@ public class Find_HotFragment extends Fragment implements View.OnClickListener{
     private  List<FindPeopleIF> findPeopleIFs2;//呐喊榜音乐人
     private  List<FindPeopleIF> findPeopleIFs3;//新锐音乐人
     private  List<FindMusicClassification> findMusicCfs;//音乐分类
-    private TextView musicstar_more;
+
+    private TextView musicstar_more,music_classification_more,new_music_more,screammusic_more;
     private RecyclerView hot_recylerView1,hot_recylerView2,hot_recylerView3,hot_recylerView4;
     @Override
     public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frgement_find_hot,container,false);
+
         hot_recylerView1 = (RecyclerView) view.findViewById(R.id.hot_RecylerView1);
         hot_recylerView2 = (RecyclerView) view.findViewById(R.id.hot_RecylerView2);
         hot_recylerView3 = (RecyclerView) view.findViewById(R.id.hot_RecylerView3);
         hot_recylerView4 = (RecyclerView) view.findViewById(R.id.hot_RecylerView4);
         musicstar_more = (TextView) view.findViewById(R.id.musicstar_more);
+        music_classification_more = (TextView) view.findViewById(R.id.music_classification_more);
+        new_music_more = (TextView) view.findViewById(R.id.new_music_more);
+        screammusic_more = (TextView) view.findViewById(R.id.screammusic_more);
         PRScrollView = (PullToRefreshScrollView) view.findViewById(R.id.PRScrollView);
         //设置孩子的排列方式    每排显示3个
         hot_recylerView1.setLayoutManager(new GridLayoutManager(getActivity(),3));
@@ -65,7 +76,7 @@ public class Find_HotFragment extends Fragment implements View.OnClickListener{
         initData1(InterfaceUri.find_hot_musicstar6);//加载明星音乐人数据
         initData2(InterfaceUri.find_hot_screamlist3);//加载呐喊榜音乐人数据
         initData3(InterfaceUri.find_hot_newmusic6);//加载新锐音乐人数据
-        initData4(InterfaceUri.find_hot_music_classification6);//加载音乐分类数据
+        initData4(InterfaceUri.find_hot_music_classification);//加载音乐分类数据
         setOnListener();
         PRScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
             @Override
@@ -78,7 +89,7 @@ public class Find_HotFragment extends Fragment implements View.OnClickListener{
                 initData1(InterfaceUri.find_hot_musicstar6);//加载明星音乐人数据
                 initData2(InterfaceUri.find_hot_screamlist3);//加载呐喊榜音乐人数据
                 initData3(InterfaceUri.find_hot_newmusic6);//加载新锐音乐人数据
-                initData4(InterfaceUri.find_hot_music_classification6);//加载音乐分类数据
+                initData4(InterfaceUri.find_hot_music_classification);//加载音乐分类数据
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -111,6 +122,10 @@ public class Find_HotFragment extends Fragment implements View.OnClickListener{
 
     private void setOnListener() {
         musicstar_more.setOnClickListener(this);
+        music_classification_more.setOnClickListener(this);
+        new_music_more.setOnClickListener(this);
+        screammusic_more.setOnClickListener(this);
+
     }
 
     private void initData4(final String URL) {
@@ -139,8 +154,14 @@ public class Find_HotFragment extends Fragment implements View.OnClickListener{
 
                             findMusicCfs.add(fc);
                         }
-                        Find_hot_Adapter2 find_hot_adapter2 = new Find_hot_Adapter2(findMusicCfs,getActivity());
+                        Find_hot_Adapter2 find_hot_adapter2 = new Find_hot_Adapter2(findMusicCfs,getActivity(),0);
                         hot_recylerView4.setAdapter(find_hot_adapter2);
+                        find_hot_adapter2.setmOnitemClickListener(new Find_hot_Adapter2.OnRecyclerViewItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, FindMusicClassification findMusicCfs) {
+                                //Toast.makeText(getActivity(), "用户id为"+findMusicCfs.get, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                          find_hot_adapter2.notifyDataSetChanged();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -179,6 +200,12 @@ public class Find_HotFragment extends Fragment implements View.OnClickListener{
                         //Log.e("----",""+findPeopleIFs3);
                         Find_hot_Adapter1 find_hot_adapter1 = new Find_hot_Adapter1(findPeopleIFs3,getActivity(),URL);
                         hot_recylerView3.setAdapter(find_hot_adapter1);
+                        find_hot_adapter1.setmOnitemClickListener(new Find_hot_Adapter1.OnRecyclerViewItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, FindPeopleIF findPeopleIF) {
+                                Toast.makeText(getActivity(), "用户id为"+findPeopleIF.getId(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         find_hot_adapter1.notifyDataSetChanged();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -216,6 +243,12 @@ public class Find_HotFragment extends Fragment implements View.OnClickListener{
                         }
                         Find_hot_Adapter1 find_hot_adapter1 = new Find_hot_Adapter1(findPeopleIFs2,getActivity(),URL);
                         hot_recylerView2.setAdapter(find_hot_adapter1);
+                        find_hot_adapter1.setmOnitemClickListener(new Find_hot_Adapter1.OnRecyclerViewItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, FindPeopleIF findPeopleIF) {
+                                Toast.makeText(getActivity(), "用户id为"+findPeopleIF.getId(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         find_hot_adapter1.notifyDataSetChanged();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -257,6 +290,13 @@ public class Find_HotFragment extends Fragment implements View.OnClickListener{
                         }
                         Find_hot_Adapter1 find_hot_adapter1 = new Find_hot_Adapter1(findPeopleIFs1,getActivity(),URL);
                         hot_recylerView1.setAdapter(find_hot_adapter1);
+                        //设置RecyclerView1的点击事件显示id
+                        find_hot_adapter1.setmOnitemClickListener(new Find_hot_Adapter1.OnRecyclerViewItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, FindPeopleIF findPeopleIF) {
+                                Toast.makeText(getActivity(), "用户id为"+findPeopleIF.getId(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         find_hot_adapter1.notifyDataSetChanged();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -273,6 +313,20 @@ public class Find_HotFragment extends Fragment implements View.OnClickListener{
             case R.id.musicstar_more:
                 Intent intent = new Intent(getActivity(), MusicStarActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.screammusic_more:
+                Intent intent1 = new Intent(getActivity(), ScreamMusicActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.new_music_more:
+                Intent intent2 = new Intent(getActivity(), NewMusicActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.music_classification_more:
+                Intent intent3 = new Intent(getActivity(), MusicClassificationActivity.class);
+                startActivity(intent3);
+                break;
+
         }
 
     }

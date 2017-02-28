@@ -37,13 +37,17 @@
                 android:id="@+id/worklist_item_Text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="成名"/>
+                android:text="成名"
+                android:singleLine="true"
+                android:ellipsize="end"/>
         </LinearLayout>
 
         <TextView
             android:id="@+id/worklist_item_NM"
             android:layout_width="120dp"
             android:layout_height="18dp"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:text="哈哈哈哈哈哈哈"/>
     </LinearLayout>
 

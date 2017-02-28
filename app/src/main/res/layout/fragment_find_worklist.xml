@@ -20,7 +20,7 @@
                     android:id="@+id/worklist_hotpic"
                     android:layout_width="20dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/hot"/>
+                  />
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/worklist_recyclerview1"
                     android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                     android:id="@+id/worklist_originpic"
                     android:layout_width="20dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/hot"/>
+                   />
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/worklist_recyclerview2"
                     android:layout_width="match_parent"
@@ -52,7 +52,7 @@
                     android:id="@+id/worklist_salepic"
                     android:layout_width="20dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/hot"/>
+                   />
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/worklist_recyclerview3"
                     android:layout_width="match_parent"
@@ -68,7 +68,7 @@
                     android:id="@+id/worklist_coverpic"
                     android:layout_width="20dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/hot"/>
+                    />
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/worklist_recyclerview4"
                     android:layout_width="match_parent"
@@ -84,7 +84,7 @@
                     android:id="@+id/worklist_videopic"
                     android:layout_width="20dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/hot"/>
+                    />
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/worklist_recyclerview5"
                     android:layout_width="match_parent"

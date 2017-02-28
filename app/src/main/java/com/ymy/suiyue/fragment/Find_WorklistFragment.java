@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -102,7 +104,7 @@ public class Find_WorklistFragment extends Fragment {
     /***
      * 加载每行的足部布局
      */
-    private void setFooterView() {
+   /* private void setFooterView() {
         View footer = LayoutInflater.from(getActivity()).inflate(R.layout.find_worklist_foot,worklist_recyclerview1 , false);
         find_workListAdapter1.setmFooterView(footer);
         View footer1 = LayoutInflater.from(getActivity()).inflate(R.layout.find_worklist_foot,worklist_recyclerview2 , false);
@@ -113,7 +115,7 @@ public class Find_WorklistFragment extends Fragment {
         find_workListAdapter4.setmFooterView(footer3);
         View footer4 = LayoutInflater.from(getActivity()).inflate(R.layout.find_worklist_foot,worklist_recyclerview5 , false);
         find_workListAdapter5.setmFooterView(footer4);
-    }
+    }*/
 
 
 
@@ -148,12 +150,17 @@ public class Find_WorklistFragment extends Fragment {
                             workListOne.setId(json5.getString("id"));//作品id
                            workListOne.setTitle(json5.getString("title"));
                             workListOne.setCover_photo(json5.getString("cover_photo"));
-
+                           workListOne.setType(0);
                             listWorkListOnes.add(workListOne);
 
 
                         }
+                        WorkListOne workListOneLast = new WorkListOne();
+                        workListOneLast.setType(1);
+                       listWorkListOnes.add(workListOneLast);
                         listWorkLists.add(listWorkListOnes);
+
+
                     }
                     //把前面的图片放进去（热度---------）
                     for (int m= 0;m<listIV.size();m++){
@@ -173,8 +180,75 @@ public class Find_WorklistFragment extends Fragment {
                     worklist_recyclerview3.setAdapter(find_workListAdapter3);
                     worklist_recyclerview4.setAdapter(find_workListAdapter4);
                     worklist_recyclerview5.setAdapter(find_workListAdapter5);
-                    //为RecyclerView添加FooterView
-                    setFooterView();
+
+
+                    find_workListAdapter1.setmOnitemClickListener(new Find_WorkListAdapter.OnRecyclerViewItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, WorkListOne workListOne) {
+                            if(!TextUtils.isEmpty(workListOne.getId())){
+                            Toast.makeText(getActivity(), "作品id为"+workListOne.getId(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity(), "作品id为"+1, Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(getActivity(), "我是加载更多", Toast.LENGTH_SHORT).show();
+
+                            }
+                            //Toast.makeText(getActivity(), "作品id为"+1, Toast.LENGTH_SHORT).show();
+
+
+                        }
+                    });
+                    find_workListAdapter2.setmOnitemClickListener(new Find_WorkListAdapter.OnRecyclerViewItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, WorkListOne workListOne) {
+                            if(!TextUtils.isEmpty(workListOne.getId())){
+                                Toast.makeText(getActivity(), "作品id为"+workListOne.getId(), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getActivity(), "作品id为"+1, Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(getActivity(), "我是加载更多", Toast.LENGTH_SHORT).show();
+
+                            }
+                            //Toast.makeText(getActivity(), "作品id为"+1, Toast.LENGTH_SHORT).show();
+
+
+                        }
+                    });
+                    find_workListAdapter3.setmOnitemClickListener(new Find_WorkListAdapter.OnRecyclerViewItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, WorkListOne workListOne) {
+                            if(!TextUtils.isEmpty(workListOne.getId())){
+                                Toast.makeText(getActivity(), "作品id为"+workListOne.getId(), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getActivity(), "作品id为"+1, Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(getActivity(), "我是加载更多", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                    });
+                    find_workListAdapter4.setmOnitemClickListener(new Find_WorkListAdapter.OnRecyclerViewItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, WorkListOne workListOne) {
+                            if(!TextUtils.isEmpty(workListOne.getId())){
+                                Toast.makeText(getActivity(), "作品id为"+workListOne.getId(), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getActivity(), "作品id为"+1, Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(getActivity(), "我是加载更多", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        }
+                    });
+                    find_workListAdapter5.setmOnitemClickListener(new Find_WorkListAdapter.OnRecyclerViewItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, WorkListOne workListOne) {
+                            if(!TextUtils.isEmpty(workListOne.getId())){
+                                Toast.makeText(getActivity(), "作品id为"+workListOne.getId(), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getActivity(), "作品id为"+1, Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(getActivity(), "我是加载更多", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                    });
 
 
                 } catch (JSONException e) {
