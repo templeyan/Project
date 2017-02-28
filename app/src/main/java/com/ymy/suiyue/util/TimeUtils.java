@@ -1,12 +1,17 @@
 package com.ymy.suiyue.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
- * 将时间戳转为代表"距现在多久之前"的字符串
+ * 时间戳处理
  * Created by Galaxy on 2017/2/20.
  */
 
 public class TimeUtils {
     /**
+     * 将时间戳转为代表"距现在多久之前"的字符串
      * @param timeStr   时间戳
      * @return
      */
@@ -53,4 +58,11 @@ public class TimeUtils {
         return sb.toString();
     }
 
+    //时间戳转换为当前时间
+    public static  String getNormalTime(String time) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        int i = Integer.parseInt(time);
+        String normalTime = dateFormat.format(new Date(i*1000L));
+        return normalTime;
+    }
 }

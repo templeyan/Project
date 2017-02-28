@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.ymy.suiyue.R;
 import com.ymy.suiyue.adapter.MyNewestAdapter;
-import com.ymy.suiyue.bean.NewestInformation;
+import com.ymy.suiyue.bean.HPRecommendNewestBean;
 import com.ymy.suiyue.constants.InterfaceUri;
 import com.ymy.suiyue.util.TimeUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -30,16 +30,16 @@ import java.util.List;
 import okhttp3.Call;
 
 /**
- * 首页推荐
+ * 首页最新
  * Created by Galaxy on 2017/2/19.
  */
 
 public class Home_NewestFragment extends Fragment {
     private RecyclerView recyclerView;//显示数据
     private MyNewestAdapter adapter;//RecyclerView适配器
-    private List<NewestInformation> list = new ArrayList<>();//数据源
+    private List<HPRecommendNewestBean> list;//数据源
     public static int page = 1;//执行刷新和加载时请求的参数
-    private NewestInformation newestInformation;//最新界面的信息对象
+    private HPRecommendNewestBean HPRecommendNewestBean;//最新界面的信息对象
     private SwipeRefreshLayout swipeRefreshLayout;//刷新布局
 
     @Override
@@ -65,49 +65,46 @@ public class Home_NewestFragment extends Fragment {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        if (page == 1) {
-                            list.clear();
-                        }
+
                         try {
+                            list = new ArrayList<>();
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject object = jsonObject.getJSONObject("data");
                             JSONArray jsonArray = object.getJSONArray("list");
-                            for (int i = 0; i < jsonArray.length(); i++) {
+                            int length = jsonArray.length();
+                            for (int i = 0; i < length; i++) {
                                 JSONObject listObject = jsonArray.getJSONObject(i);
-                                newestInformation = new NewestInformation();
-                                newestInformation.setId(TimeUtils.getStandardDate(listObject.getString("id")));
-                                newestInformation.setTime(TimeUtils.getStandardDate(listObject.getString("create_time")));
+                                HPRecommendNewestBean = new HPRecommendNewestBean();
+                                HPRecommendNewestBean.setTime(TimeUtils.getStandardDate(listObject.getString("create_time")));
                                 JSONObject userObject = listObject.getJSONObject("user_info");
-                                newestInformation.setNickname(userObject.getString("nickname"));
-                                newestInformation.setPortrait(userObject.getString("avatar"));
+                                HPRecommendNewestBean.setNickname(userObject.getString("nickname"));
+                                HPRecommendNewestBean.setPortrait(userObject.getString("avatar"));
                                 JSONObject worksObject = listObject.getJSONObject("works");
                                 if (worksObject.getString("type").equals("1")) {
-                                    newestInformation.setType("音频");
+                                    HPRecommendNewestBean.setType("音频");
                                 } else if (worksObject.getString("type").equals("2")) {
-                                    newestInformation.setType("视频");
+                                    HPRecommendNewestBean.setType("视频");
                                 }
-                                newestInformation.setTitle(worksObject.getString("title"));
-                                newestInformation.setBackground(worksObject.getString("cover_photo"));
+                                HPRecommendNewestBean.setTitle(worksObject.getString("title"));
+                                HPRecommendNewestBean.setBackground(worksObject.getString("cover_photo"));
                                 if (Integer.parseInt(worksObject.getString("file_long")) < 60) {//秒转换为分秒的形式
-                                    newestInformation.setDuration("00:" + worksObject.getString("file_long"));
+                                    HPRecommendNewestBean.setDuration("00:" + worksObject.getString("file_long"));
                                 } else {
                                     int t = Integer.parseInt(worksObject.getString("file_long"));
                                     int m = t / 60;
                                     int s = t % 60;
-                                    newestInformation.setDuration(m + ":" + s);
+                                    HPRecommendNewestBean.setDuration(m + ":" + s);
                                 }
-                                newestInformation.setCommentCounts(worksObject.getString("recommend_num"));
-                                list.add(newestInformation);
+                                HPRecommendNewestBean.setCommentCounts(worksObject.getString("recommend_num"));
+                                list.add(HPRecommendNewestBean);
                             }
                             adapter = new MyNewestAdapter(getActivity().getApplicationContext(), list);
                             recyclerView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 });
-
     }
 
 

@@ -22,11 +22,11 @@ import java.util.List;
  * Created by Galaxy on 2017/2/20.
  */
 
-public class MyNewestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MyRecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<HPRecommendNewestBean> list;
 
-    public MyNewestAdapter(Context context, List list) {
+    public MyRecommendAdapter(Context context, List list) {
         this.context = context;
         this.list = list;
     }
@@ -34,18 +34,22 @@ public class MyNewestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_myrecyclerview_item, null);
-        return new MyNewestAdapter.ViewHolder(view);
+        return new MyRecommendAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        MyNewestAdapter.ViewHolder viewHolder = (MyNewestAdapter.ViewHolder) holder;
+        MyRecommendAdapter.ViewHolder viewHolder = (MyRecommendAdapter.ViewHolder) holder;
         viewHolder.title.setText(list.get(position).getTitle());
         viewHolder.duration.setText(list.get(position).getDuration());
         viewHolder.time.setText(list.get(position).getTime());
         viewHolder.nickname.setText(list.get(position).getNickname());
         viewHolder.type.setText(list.get(position).getType());
-        viewHolder.ratingBar.setVisibility(View.GONE);
+        if (list.get(position).getScore().equals("")) {
+            viewHolder.ratingBar.setVisibility(View.GONE);
+        }else {
+            viewHolder.ratingBar.setRating(Float.parseFloat(list.get(position).getScore()));
+        }
         viewHolder.line.setVisibility(View.GONE);
         Picasso.with(context).load(list.get(position).getBackground()).into(viewHolder.background);
         if (!TextUtils.isEmpty(list.get(position).getPortrait()) || !list.get(position).getPortrait().equals("")) {
