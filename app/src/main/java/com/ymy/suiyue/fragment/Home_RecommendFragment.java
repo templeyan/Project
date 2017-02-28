@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ymy.suiyue.R;
+import com.ymy.suiyue.adapter.MyPagerAdapter;
 import com.ymy.suiyue.adapter.MyRecommendAdapter;
 import com.ymy.suiyue.bean.HPRecommendNewestBean;
 import com.ymy.suiyue.constants.InterfaceUri;
 import com.ymy.suiyue.util.TimeUtils;
+import com.ymy.suiyue.view.MyViewPager;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -33,14 +35,16 @@ import okhttp3.Call;
 public class Home_RecommendFragment extends Fragment {
     private RecyclerView recyclerView;//列表展示
     private HPRecommendNewestBean HPRecommendNewestBean;//最新界面的信息对象
-    private List<HPRecommendNewestBean> list;//数据源
+    private List list,list1;//列表展示数据源，广告数据源
     private MyRecommendAdapter adapter;//适配器
+    private MyViewPager myViewPager;
+    private MyPagerAdapter pageAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_home_recommend,container,false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-
+        //myViewPager = (MyViewPager) view.findViewById(R.id.myViewPager);
         init();
         return view;
     }
@@ -63,7 +67,8 @@ public class Home_RecommendFragment extends Fragment {
                     @Override
                     public void onResponse(String response, int id) {
                         try {
-                            list = new ArrayList<>();
+                            list = new ArrayList<HPRecommendNewestBean>();
+                            list1 = new ArrayList<String>();
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject object = jsonObject.getJSONObject("data");
                             JSONArray jsonArray = object.getJSONArray("list");
@@ -97,6 +102,9 @@ public class Home_RecommendFragment extends Fragment {
                                 }
                                 HPRecommendNewestBean.setCommentCounts(worksObject.getString("recommend_num"));
                                 list.add(HPRecommendNewestBean);
+                                if (i<5){
+                                    list1.add(HPRecommendNewestBean.getBackground());
+                                }
                             }
                             adapter = new MyRecommendAdapter(getActivity().getApplicationContext(), list);
                             recyclerView.setAdapter(adapter);
